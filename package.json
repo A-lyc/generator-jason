@@ -1,35 +1,87 @@
 {
   "name": "generator-jason",
-  "version": "1.0.0",
-  "description": "基于 webpack 的前端脚手架",
-  "main": "null",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node_modules/.bin/webpack --config ./build/webpack.prod.conf.js --mode=production",
-    "dev": "node_modules/.bin/webpack-dev-server --config ./build/webpack.dev.conf.js --mode=development"
+  "version": "0.0.0",
+  "description": "基于 webpack 的前端多页面脚手架",
+  "homepage": "https://github.com/q-jason/generator-jason",
+  "author": {
+    "name": "q-jason",
+    "email": "596908546@qq.com",
+    "url": ""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/q-jason/generator-jason.git"
-  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/index.js",
   "keywords": [
     "webpack",
-    "web",
     "javascript",
-    "css",
+    "yeoman",
     "html",
-    "yeoman"
+    "css",
+    "yeoman-generator"
   ],
-  "author": "q-jason",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/q-jason/generator-jason/issues"
-  },
-  "homepage": "https://github.com/q-jason/generator-jason#readme",
   "devDependencies": {
-    "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
-  }
+    "coveralls": "^3.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-xo": "^0.20.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "jest": "^22.0.6",
+    "lint-staged": "^6.1.1",
+    "nsp": "^2.8.0",
+    "prettier": "^1.11.1",
+    "yeoman-assert": "^3.1.0",
+    "yeoman-test": "^1.7.0"
+  },
+  "engines": {
+    "npm": ">= 4.0.0"
+  },
+  "dependencies": {
+    "yeoman-generator": "^2.0.1",
+    "chalk": "^2.1.0",
+    "yosay": "^2.0.1"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "scripts": {
+    "prepublishOnly": "nsp check",
+    "pretest": "eslint .",
+    "precommit": "lint-staged",
+    "test": "jest"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "xo",
+      "prettier"
+    ],
+    "env": {
+      "jest": true,
+      "node": true
+    },
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "printWidth": 90
+        }
+      ]
+    },
+    "plugins": [
+      "prettier"
+    ]
+  },
+  "repository": "https://github.com/q-jason/generator-jason.git",
+  "license": "MIT"
 }
