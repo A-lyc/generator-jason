@@ -39,16 +39,16 @@ module.exports = class extends Generator {
       this.destinationPath('.babelrc')
     );
     this.fs.copy(
-      this.templatePath('.editorconfig'),
-      this.destinationPath('.editorconfig')
+      this.templatePath('editorconfig'),
+      this.destinationPath('editorconfig')
     );
     this.fs.copy(
-      this.templatePath('.gitattributes'),
-      this.destinationPath('.gitattributes')
+      this.templatePath('gitattributes'),
+      this.destinationPath('gitattributes')
     );
     this.fs.copy(
-      this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore')
+      this.templatePath('gitignore'),
+      this.destinationPath('gitignore')
     );
     this.fs.copy(
       this.templatePath('package.json'),

@@ -1,6 +1,6 @@
 {
   "name": "generator-jason",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "description": "基于 webpack 的前端多页面脚手架",
   "homepage": "https://github.com/q-jason/generator-jason",
   "author": {
@@ -83,5 +83,5 @@
     ]
   },
   "repository": "https://github.com/q-jason/generator-jason.git",
-  "license": "MIT"
+  "license": "ISC"
 }
