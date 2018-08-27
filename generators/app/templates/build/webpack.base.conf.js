@@ -9,9 +9,9 @@ const {
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // 公共的JS入口
-const commonFileName = 'common.js';
+const mainFileName = 'main.js';
 // 公共JS入口位置
-const commonPath = path.resolve(__dirname, '../src/common.js');
+const mainPath = path.resolve(__dirname, '../src/main.js');
 // 网页目录位置
 const pagesPath = path.resolve(__dirname, '../src/pages');
 
@@ -20,7 +20,7 @@ const pagesPath = path.resolve(__dirname, '../src/pages');
 module.exports = {
   entry: (() => {
     let entry = {
-      common: commonPath
+      main: mainPath
     };
     // 找到页面目录下的所有文件
     let filesNameArr = readAllFiles(pagesPath);
@@ -42,7 +42,7 @@ module.exports = {
     rules: [
       // html
       {
-        test: /\.html$/i,
+        test: /\.(html)$/i,
         use: [
           {
             loader: 'html-loader',
@@ -129,13 +129,13 @@ module.exports = {
       _.each(filesNameArr, fileNameArr => {
         let dir = fileNameArr.dirName;
         let htmlName = _.filter(fileNameArr, fileName => {
-          return _.endsWith(fileName, '.html');
+          return _.endsWith(fileName, '.ejs');
         })[ 0 ];
         htmlPlugins.push(new HtmlWebpackPlugin({
           filename: dir + '.html',
           template: pagesPath + '/' + dir + '/' + htmlName,
           chunks: [
-            commonFileName.replace('.js', ''),
+            mainFileName.replace('.js', ''),
             dir
           ]
         }));
