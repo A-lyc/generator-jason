@@ -7,13 +7,16 @@ const {
 } = require('./utils');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-// 公共的JS入口
+// 公共的JS文件名
 const mainFileName = 'main.js';
 // 公共JS入口位置
 const mainPath = path.resolve(__dirname, '../src/main.js');
 // 网页目录位置
 const pagesPath = path.resolve(__dirname, '../src/pages');
+// 输出目录
+const outputPath = path.resolve(__dirname, '../dist');
 
 // 注意：
 //   entry 的 key 值为 目录名
@@ -35,7 +38,7 @@ module.exports = {
     return entry;
   })(),
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: outputPath,
     filename: 'script/[name].js'
   },
   module: {
@@ -64,7 +67,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[hash:5].[ext]'
+              name: 'images/[name].[ext]'
             }
           }
         ]
@@ -76,7 +79,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[hash:5].[ext]'
+              name: 'fonts/[name].[ext]'
             }
           }
         ]
@@ -88,7 +91,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'media/[hash:5].[ext]'
+              name: 'media/[name].[ext]'
             }
           }
         ]
@@ -133,6 +136,8 @@ module.exports = {
     }
   },
   plugins: [
+    // CleanWebpackPlugin
+    new CleanWebpackPlugin(outputPath),
     // HtmlWebpackPlugin
     ...(() => {
       let htmlPlugins = [];
