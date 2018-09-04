@@ -36,7 +36,7 @@ module.exports = {
   })(),
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'script/[chunkhash].js'
+    filename: 'script/[name].js'
   },
   module: {
     rules: [
@@ -120,6 +120,18 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        verdor: {
+          name: 'verdor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial',
+          enforce: true
+        }
+      }
+    }
+  },
   plugins: [
     // HtmlWebpackPlugin
     ...(() => {
@@ -136,7 +148,8 @@ module.exports = {
           template: pagesPath + '/' + dir + '/' + htmlName,
           chunks: [
             mainFileName.replace('.js', ''),
-            dir
+            dir,
+            'verdor'
           ]
         }));
       });
