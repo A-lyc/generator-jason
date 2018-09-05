@@ -1,4 +1,3 @@
-'use strict';
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
@@ -36,26 +35,29 @@ exports.readAllFiles = readAllFiles;
  *  根据 config 返回 css 相关 loader 数组
  **/
 const extractCSS = new ExtractTextPlugin({
-  filename: `css/[${config.hash ? 'chunkhash' : 'name'}].css`,
+  filename: `css/[${config.hash ? 'chunkhash' : 'name'}].css`
 });
 exports.styleLoaders = function () {
   let loaderArr = [];
-  if (config.extractCss) {
+  // 开发环境不生成 css 文件
+  if (process.env.NODE_ENV === 'development' || !config.extractCss) {
     loaderArr = [
       {
         test: /\.css$/i,
-        use: extractCSS.extract([
+        use: [
+          'style-loader',
           'css-loader',
           'postcss-loader'
-        ])
+        ]
       },
       {
         test: /\.scss/i,
-        use: extractCSS.extract([
+        use: [
+          'style-loader',
           'css-loader',
           'postcss-loader',
           'sass-loader'
-        ])
+        ]
       }
     ];
   }
@@ -63,30 +65,28 @@ exports.styleLoaders = function () {
     loaderArr = [
       {
         test: /\.css$/i,
-        use: [
-          'style-loader',
+        use: extractCSS.extract([
           'css-loader',
           'postcss-loader'
-        ]
+        ])
       },
       {
         test: /\.scss/i,
-        use: [
-          'style-loader',
+        use: extractCSS.extract([
           'css-loader',
           'postcss-loader',
           'sass-loader'
-        ]
+        ])
       }
     ];
   }
   return loaderArr;
 };
 exports.stylePlugins = function () {
-  if (config.extractCss) {
-    return [ extractCSS ];
+  if (process.env.NODE_ENV === 'development' || !config.extractCss) {
+    return [];
   }
   else {
-    return [];
+    return [ extractCSS ];
   }
 };
