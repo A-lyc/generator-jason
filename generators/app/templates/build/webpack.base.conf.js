@@ -2,8 +2,12 @@
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+
+const config = require('../config');
 const {
-  readAllFiles
+  readAllFiles,
+  styleLoaders,
+  stylePlugins
 } = require('./utils');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -14,7 +18,7 @@ const mainFileName = 'main.js';
 // 公共JS入口位置
 const mainPath = path.resolve(__dirname, '../src/main.js');
 // 网页目录位置
-const pagesPath = path.resolve(__dirname, '../src/pages');
+const viewPath = path.resolve(__dirname, '../src/views');
 // 输出目录
 const outputPath = path.resolve(__dirname, '../dist');
 
@@ -26,14 +30,14 @@ module.exports = {
       main: mainPath
     };
     // 找到页面目录下的所有文件
-    let filesNameArr = readAllFiles(pagesPath);
+    let filesNameArr = readAllFiles(viewPath);
     // 找出 js 文件名，第一个匹配到的文件
     _.each(filesNameArr, fileNameArr => {
       let jsName = _.filter(fileNameArr, fileName => {
         return _.endsWith(fileName, '.js');
       })[ 0 ];
       // 给 entry 赋值
-      entry[ fileNameArr.dirName ] = pagesPath + '/' + fileNameArr.dirName + '/' + jsName;
+      entry[ fileNameArr.dirName ] = viewPath + '/' + fileNameArr.dirName + '/' + jsName;
     });
     return entry;
   })(),
@@ -43,6 +47,8 @@ module.exports = {
   },
   module: {
     rules: [
+      // style loader
+      ...styleLoaders(),
       // html
       {
         test: /\.(html)$/i,
@@ -67,7 +73,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[name].[ext]'
+              name: `images/[${config.hash ? 'chunkhash' : 'name'}].[ext]`
             }
           }
         ]
@@ -79,7 +85,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[ext]'
+              name: `fonts/[${config.hash ? 'chunkhash' : 'name'}].[ext]`
             }
           }
         ]
@@ -91,28 +97,9 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'media/[name].[ext]'
+              name: `media/[${config.hash ? 'chunkhash' : 'name'}].[ext]`
             }
           }
-        ]
-      },
-      // css
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader'
-        ]
-      },
-      // scss
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'sass-loader'
         ]
       },
       // js babel
@@ -136,12 +123,12 @@ module.exports = {
     }
   },
   plugins: [
-    // CleanWebpackPlugin
+    // 清除打包目录
     new CleanWebpackPlugin(outputPath),
     // HtmlWebpackPlugin
     ...(() => {
       let htmlPlugins = [];
-      let filesNameArr = readAllFiles(pagesPath);
+      let filesNameArr = readAllFiles(viewPath);
       // 找出所有html文件名
       _.each(filesNameArr, fileNameArr => {
         let dir = fileNameArr.dirName;
@@ -150,7 +137,7 @@ module.exports = {
         })[ 0 ];
         htmlPlugins.push(new HtmlWebpackPlugin({
           filename: dir + '.html',
-          template: pagesPath + '/' + dir + '/' + htmlName,
+          template: viewPath + '/' + dir + '/' + htmlName,
           chunks: [
             mainFileName.replace('.js', ''),
             dir,
@@ -159,6 +146,8 @@ module.exports = {
         }));
       });
       return htmlPlugins;
-    })()
+    })(),
+    // extract-text-webpack-plugin
+    ...stylePlugins()
   ]
 };

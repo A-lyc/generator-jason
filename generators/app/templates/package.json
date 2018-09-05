@@ -1,12 +1,12 @@
 {
-  "name": "generator-jason",
-  "version": "1.0.0",
+  "name": "my-project",
+  "version": "0.0.0",
   "description": "基于 webpack 的前端脚手架",
   "main": "null",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/webpack --config ./build/webpack.prod.conf.js --mode=production --progress",
-    "dev": "node_modules/.bin/webpack-dev-server --config ./build/webpack.dev.conf.js --mode=development --progress"
+    "dev": "node_modules/.bin/webpack-dev-server --config ./build/webpack.dev.conf.js --mode=development --progress --color"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.0",
     "ejs-loader": "^0.3.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
