@@ -6,7 +6,8 @@ const config = require('../config');
 const {
   readAllFiles,
   styleLoaders,
-  stylePlugins
+  stylePlugins,
+  exposeLoaders
 } = require('./utils');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -20,6 +21,9 @@ const mainPath = path.resolve(__dirname, '../src/main.js');
 const viewPath = path.resolve(__dirname, '../src/views');
 // 输出目录
 const outputPath = path.resolve(__dirname, '../dist');
+
+// 第三方模块 chunk 名
+const verdor = 'verdor';
 
 // 注意：
 //   entry 的 key 值为 目录名
@@ -48,20 +52,14 @@ module.exports = {
     rules: [
       // style loader
       ...styleLoaders(),
-      // html
+      // expose loader
+      ...exposeLoaders(),
+      // ejs
       {
-        test: /\.(html)$/i,
+        test: /\.(ejs)$/i,
         use: [
           {
-            loader: 'html-loader',
-            options: {
-              attrs: [
-                'img:src',
-                'video:src',
-                'source:src',
-                'audio:src'
-              ]
-            }
+            loader: 'ejs-loader'
           }
         ]
       },
@@ -105,15 +103,19 @@ module.exports = {
       {
         test: /\.js$/i,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
       }
     ]
   },
   optimization: {
     splitChunks: {
       cacheGroups: {
-        verdor: {
-          name: 'verdor',
+        [ verdor ]: {
+          name: verdor,
           test: /[\\/]node_modules[\\/]/,
           chunks: 'initial',
           enforce: true
@@ -140,7 +142,7 @@ module.exports = {
           chunks: [
             mainFileName.replace('.js', ''),
             dir,
-            'verdor'
+            verdor
           ]
         }));
       });

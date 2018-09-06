@@ -4,31 +4,35 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 
 module.exports = class extends Generator {
-  prompting() {
+  prompting () {
     // Have Yeoman greet the user.
     this.log(
       yosay(`Welcome to the praiseworthy ${chalk.red('generator-jason')} generator!`)
     );
-
-    const prompts = [
-      {
-        type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true
-      }
-    ];
-
-    return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
-    });
+    
+    // const prompts = [
+    //   {
+    //     type: 'confirm',
+    //     name: 'someAnswer',
+    //     message: 'Would you like to enable this option?',
+    //     default: true
+    //   }
+    // ];
+    //
+    // return this.prompt(prompts).then(props => {
+    //   // To access props later use this.props.someAnswer;
+    //   this.props = props;
+    // });
   }
-
-  writing() {
+  
+  writing () {
     this.fs.copy(
       this.templatePath('build'),
       this.destinationPath('build')
+    );
+    this.fs.copy(
+      this.templatePath('config'),
+      this.destinationPath('config')
     );
     this.fs.copy(
       this.templatePath('src'),
@@ -59,8 +63,8 @@ module.exports = class extends Generator {
       this.destinationPath('postcss.config.js')
     );
   }
-
-  install() {
+  
+  install () {
     this.installDependencies();
   }
 };

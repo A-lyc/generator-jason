@@ -90,3 +90,22 @@ exports.stylePlugins = function () {
     return [ extractCSS ];
   }
 };
+
+/**
+ *  需要挂到 window 变量上的 模块
+ *  转为 loader
+ **/
+exports.exposeLoaders = function () {
+  let { window } = config;
+  let loaders = [];
+  _.each(window, (moduleName, windowKey) => {
+    loaders.push({
+      test: require.resolve(moduleName),
+      use: [ {
+        loader: 'expose-loader',
+        options: windowKey
+      } ]
+    });
+  });
+  return loaders;
+};
