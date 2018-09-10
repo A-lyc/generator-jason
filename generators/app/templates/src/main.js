@@ -2,5 +2,5 @@
 import './assets/styles/global.scss';
 
 // 网站中公共部分
-import './components/header';
+import './components/header/script';
 import './components/footer';
