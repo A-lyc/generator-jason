@@ -1,0 +1,9 @@
+<div
+  class="<%= className || '' %>"
+  id="<%= id || '' %>"
+  <% for (let key in data) { %>
+  <%= `data-${key}=${data[ key ] || ''}` %>
+  <% } %>
+>
+  组件模板
+</div>

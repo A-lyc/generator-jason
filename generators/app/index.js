@@ -39,20 +39,20 @@ module.exports = class extends Generator {
       this.destinationPath('src')
     );
     this.fs.copy(
-      this.templatePath('.babelrc'),
+      this.templatePath('babelrc'),
       this.destinationPath('.babelrc')
     );
     this.fs.copy(
       this.templatePath('editorconfig'),
-      this.destinationPath('editorconfig')
+      this.destinationPath('.editorconfig')
     );
     this.fs.copy(
       this.templatePath('gitattributes'),
-      this.destinationPath('gitattributes')
+      this.destinationPath('.gitattributes')
     );
     this.fs.copy(
       this.templatePath('gitignore'),
-      this.destinationPath('gitignore')
+      this.destinationPath('.gitignore')
     );
     this.fs.copy(
       this.templatePath('package.json'),
