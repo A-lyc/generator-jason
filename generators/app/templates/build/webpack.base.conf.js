@@ -102,7 +102,7 @@ module.exports = {
       // js babel
       {
         test: /\.js$/i,
-        exclude: /node_modules/,
+        exclude: '/node_modules/',
         use: [
           {
             loader: 'babel-loader'
