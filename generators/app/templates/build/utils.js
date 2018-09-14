@@ -1,10 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const _ = require("lodash");
+const fs = require('fs');
+const path = require('path');
+const _ = require('lodash');
 
-const config = require("../config");
+const config = require('../config');
 
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 /**
  *  查询出一个目录下的所有文件的文件名（存入到一维数组）
@@ -18,7 +18,7 @@ function readAllFiles (path) {
   // 遍历 filesName 判断路径是否为目录
   // 若为目录则继续找子文件夹
   _.each(filesName, (fileName, i) => {
-    let fullPath = path + "/" + fileName;
+    let fullPath = path + '/' + fileName;
     let stats = fs.statSync(fullPath);
     // 若为数组则递归调用，并将目录名字替换为二维数组
     if (stats.isDirectory()) {
@@ -28,35 +28,34 @@ function readAllFiles (path) {
   });
   return filesName;
 }
-
 exports.readAllFiles = readAllFiles;
 
 /**
  *  根据 config 返回 css 相关 loader 数组
  **/
 const extractCSS = new ExtractTextPlugin({
-  filename: `css/[${config.hash ? "chunkhash" : "name"}].css`
+  filename: `css/[${config.hash ? 'chunkhash' : 'name'}].css`
 });
-exports.styleLoaders = function() {
+exports.styleLoaders = function () {
   let loaderArr = [];
   // 开发环境不生成 css 文件
-  if (process.env.NODE_ENV === "development" || !config.extractCss) {
+  if (process.env.NODE_ENV === 'development' || !config.extractCss) {
     loaderArr = [
       {
         test: /\.css$/i,
         use: [
-          "style-loader",
-          "css-loader",
-          "postcss-loader"
+          'style-loader',
+          'css-loader',
+          'postcss-loader'
         ]
       },
       {
         test: /\.scss/i,
         use: [
-          "style-loader",
-          "css-loader",
-          "postcss-loader",
-          "sass-loader"
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
         ]
       }
     ];
@@ -88,8 +87,8 @@ exports.styleLoaders = function() {
   }
   return loaderArr;
 };
-exports.stylePlugins = function() {
-  if (process.env.NODE_ENV === "development" || !config.extractCss) {
+exports.stylePlugins = function () {
+  if (process.env.NODE_ENV === 'development' || !config.extractCss) {
     return [];
   }
   else {
@@ -101,14 +100,14 @@ exports.stylePlugins = function() {
  *  需要挂到 window 变量上的 模块
  *  转为 loader
  **/
-exports.exposeLoaders = function() {
+exports.exposeLoaders = function () {
   let { window } = config;
   let loaders = [];
   _.each(window, (moduleName, windowKey) => {
     loaders.push({
       test: require.resolve(moduleName),
       use: [ {
-        loader: "expose-loader",
+        loader: 'expose-loader',
         options: windowKey
       } ]
     });

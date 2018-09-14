@@ -22,31 +22,89 @@ const viewPath = path.resolve(__dirname, '../src/views');
 // 输出目录
 const outputPath = path.resolve(__dirname, '../dist');
 
-// 第三方模块 chunk 名
-const verdor = 'verdor';
+// entry
+let entry = () => {
+  let entry = { main: [ mainPath ] };
+  // babel-polyfill
+  if (config.babelPolyfill) {
+    entry.main.unshift('babel-polyfill');
+  }
+  // 读取视图目录
+  // 将返回二维数组（每个二维数组代表一个网页）
+  let views = readAllFiles(viewPath);
+  // 循环找视图视图入口 给 entry 赋值
+  _.each(views, view => {
+    // 页面入口文件名
+    let jsFileName = _.filter(view, fileName => {
+      return _.endsWith(fileName, '.js');
+    })[ 0 ];
+    // 赋值 entry
+    entry[ view.dirName ] = viewPath + '/' + view.dirName + '/' + jsFileName;
+  });
+  return entry;
+};
+// htmlPlugins
+let htmlPlugins = () => {
+  let htmlPlguins = [];
+  // 获取所有视图目录（二维数组）
+  let views = readAllFiles(viewPath);
+  // 找出 每个目录下的 ejs 文件名
+  // 给 htmlPlugins 赋值
+  _.each(views, view => {
+    let htmlFileName = _.filter(view, fileName => {
+      return _.endsWith(fileName, '.ejs');
+    })[ 0 ];
+    htmlPlguins.push(new HtmlWebpackPlugin({
+      filename: view.dirName + '.html',
+      template: viewPath + '/' + view.dirName + '/' + htmlFileName,
+      minify: (() => {
+        // 测试不压缩
+        if (process.env.NODE_ENV === 'development') {
+          return false;
+        }
+        // 是否开启
+        else if (config.htmlMinify === false) {
+          return false;
+        }
+        else {
+          return {
+            // 删去属性值的引号
+            removeAttributeQuotes: true,
+            // 删除空格
+            collapseWhitespace: true,
+            // 删除注释
+            removeComments: true
+          };
+        }
+      })(),
+      chunks: [
+        'verdor',
+        'main',
+        view.dirName
+      ]
+    }));
+  });
+  return htmlPlguins;
+};
+// plugins
+let plguins = () => {
+  return [
+    // 清除打包目录
+    new CleanWebpackPlugin(outputPath),
+    // extract-text-webpack-plugin
+    ...stylePlugins(),
+    // HtmlWebpackPlugin
+    ...htmlPlugins()
+  ];
+};
 
 // 注意：
-//   entry 的 key 值为 目录名
+// entry 的 key 值为 目录名
 module.exports = {
-  entry: (() => {
-    let entry = {
-      main: [ 'babel-polyfill', mainPath ]
-    };
-    // 找到页面目录下的所有文件
-    let filesNameArr = readAllFiles(viewPath);
-    // 找出 js 文件名，第一个匹配到的文件
-    _.each(filesNameArr, fileNameArr => {
-      let jsName = _.filter(fileNameArr, fileName => {
-        return _.endsWith(fileName, '.js');
-      })[ 0 ];
-      // 给 entry 赋值
-      entry[ fileNameArr.dirName ] = viewPath + '/' + fileNameArr.dirName + '/' + jsName;
-    });
-    return entry;
-  })(),
+  entry: entry(),
   output: {
     path: outputPath,
-    filename: 'script/[name].js'
+    filename: `script/[${config.hash ? 'chunkhash' : 'name'}].js`
   },
   module: {
     rules: [
@@ -114,8 +172,8 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        [ verdor ]: {
-          name: verdor,
+        verdor: {
+          name: 'verdor',
           test: /[\\/]node_modules[\\/]/,
           chunks: 'initial',
           enforce: true
@@ -123,32 +181,5 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    // 清除打包目录
-    new CleanWebpackPlugin(outputPath),
-    // HtmlWebpackPlugin
-    ...(() => {
-      let htmlPlugins = [];
-      let filesNameArr = readAllFiles(viewPath);
-      // 找出所有html文件名
-      _.each(filesNameArr, fileNameArr => {
-        let dir = fileNameArr.dirName;
-        let htmlName = _.filter(fileNameArr, fileName => {
-          return _.endsWith(fileName, '.ejs');
-        })[ 0 ];
-        htmlPlugins.push(new HtmlWebpackPlugin({
-          filename: dir + '.html',
-          template: viewPath + '/' + dir + '/' + htmlName,
-          chunks: [
-            mainFileName.replace('.js', ''),
-            dir,
-            verdor
-          ]
-        }));
-      });
-      return htmlPlugins;
-    })(),
-    // extract-text-webpack-plugin
-    ...stylePlugins()
-  ]
+  plugins: plguins()
 };
