@@ -30,7 +30,7 @@ const verdor = 'verdor';
 module.exports = {
   entry: (() => {
     let entry = {
-      main: mainPath
+      main: [ 'babel-polyfill', mainPath ]
     };
     // 找到页面目录下的所有文件
     let filesNameArr = readAllFiles(viewPath);
