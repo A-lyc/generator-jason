@@ -28,6 +28,7 @@ function readAllFiles (path) {
   });
   return filesName;
 }
+
 exports.readAllFiles = readAllFiles;
 
 /**

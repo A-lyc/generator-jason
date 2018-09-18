@@ -19,8 +19,6 @@ const mainFileName = 'main.js';
 const mainPath = path.resolve(__dirname, '../src/main.js');
 // 网页目录位置
 const viewPath = path.resolve(__dirname, '../src/views');
-// 输出目录
-const outputPath = path.resolve(__dirname, '../dist');
 
 // entry
 let entry = () => {
@@ -90,7 +88,9 @@ let htmlPlugins = () => {
 let plguins = () => {
   return [
     // 清除打包目录
-    new CleanWebpackPlugin(outputPath),
+    new CleanWebpackPlugin([ 'dist' ], {
+      root: path.resolve(__dirname, '../')
+    }),
     // extract-text-webpack-plugin
     ...stylePlugins(),
     // HtmlWebpackPlugin
@@ -103,7 +103,6 @@ let plguins = () => {
 module.exports = {
   entry: entry(),
   output: {
-    path: outputPath,
     filename: `script/[${config.hash ? 'chunkhash' : 'name'}].js`
   },
   module: {
@@ -128,7 +127,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `images/[${config.hash ? 'chunkhash' : 'name'}].[ext]`
+              name: `images/[${config.hash ? 'hash' : 'name'}].[ext]`
             }
           }
         ]
@@ -140,7 +139,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `fonts/[${config.hash ? 'chunkhash' : 'name'}].[ext]`
+              name: `fonts/[${config.hash ? 'hash' : 'name'}].[ext]`
             }
           }
         ]
@@ -152,7 +151,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `media/[${config.hash ? 'chunkhash' : 'name'}].[ext]`
+              name: `media/[${config.hash ? 'hash' : 'name'}].[ext]`
             }
           }
         ]
