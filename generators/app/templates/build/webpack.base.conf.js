@@ -19,7 +19,6 @@ const mainFileName = 'main.js';
 const mainPath = path.resolve(__dirname, '../src/main.js');
 // 网页目录位置
 const viewPath = path.resolve(__dirname, '../src/views');
-
 // entry
 let entry = () => {
   let entry = { main: [ mainPath ] };
@@ -77,6 +76,7 @@ let htmlPlugins = () => {
       })(),
       chunks: [
         'verdor',
+        'common',
         'main',
         view.dirName
       ]
@@ -171,11 +171,20 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        // 第三方模块
         verdor: {
           name: 'verdor',
           test: /[\\/]node_modules[\\/]/,
-          chunks: 'initial',
+          chunks: 'all',
           enforce: true
+        },
+        // 公共模块（组件，工具库等）
+        common: {
+          name: 'common',
+          test: /[\\/]src[\\/].*\.js/,
+          chunks: 'all',
+          enforce: true,
+          minChunks: 2
         }
       }
     }
