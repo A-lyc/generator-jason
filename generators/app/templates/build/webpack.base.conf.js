@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const _ = require('lodash');
 
 const config = require('../config');
@@ -36,7 +37,12 @@ let entry = () => {
       return _.endsWith(fileName, '.js');
     })[ 0 ];
     // 赋值 entry
-    entry[ view.dirName ] = viewPath + '/' + view.dirName + '/' + jsFileName;
+    // entry key 值 为 根据目录名计算出来的 hash 值
+    const hash = crypto
+      .createHash('md5')
+      .update(view.dirName)
+      .digest('hex');
+    entry[ hash ] = viewPath + '/' + view.dirName + '/' + jsFileName;
   });
   return entry;
 };
@@ -51,6 +57,11 @@ let htmlPlugins = () => {
     let htmlFileName = _.filter(view, fileName => {
       return _.endsWith(fileName, '.ejs');
     })[ 0 ];
+    // 网页 js 入口（根据 目录名 计算出来）
+    let entryHash = crypto
+      .createHash('md5')
+      .update(view.dirName)
+      .digest('hex');
     htmlPlguins.push(new HtmlWebpackPlugin({
       filename: view.dirName + '.html',
       template: viewPath + '/' + view.dirName + '/' + htmlFileName,
@@ -78,7 +89,7 @@ let htmlPlugins = () => {
         'verdor',
         'common',
         'main',
-        view.dirName
+        entryHash
       ]
     }));
   });

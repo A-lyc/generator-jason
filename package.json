@@ -1,6 +1,6 @@
 {
   "name": "generator-jason",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "基于 webpack 的前端多页面脚手架",
   "homepage": "https://github.com/q-jason/generator-jason",
   "author": {
