@@ -1,7 +1,14 @@
+const _ = require('lodash');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 const base = require('./webpack.base.conf');
+const envDev = require('../config/env.dev');
+
+// 处理成 JSON
+_.each(envDev, (val, key) => {
+  envDev[ key ] = JSON.stringify(val);
+});
 
 module.exports = merge(base, {
   devtool: 'cheap-module-eval-source-map',
@@ -14,7 +21,7 @@ module.exports = merge(base, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env': envDev
     })
   ]
 });

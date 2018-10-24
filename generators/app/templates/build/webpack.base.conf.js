@@ -3,7 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 const _ = require('lodash');
 
-const config = require('../config');
+const config = require('../config/config');
 const {
   readAllFiles,
   styleLoaders,
@@ -114,7 +114,7 @@ let plguins = () => {
 module.exports = {
   entry: entry(),
   output: {
-    filename: `script/[${config.hash ? 'chunkhash' : 'name'}].js`
+    filename: `js/[${config.hash ? 'chunkhash' : 'name'}].js`
   },
   module: {
     rules: [
@@ -138,7 +138,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `images/[${config.hash ? 'hash' : 'name'}].[ext]`
+              name: `image/[${config.hash ? 'hash' : 'name'}].[ext]`
             }
           }
         ]
@@ -150,7 +150,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `fonts/[${config.hash ? 'hash' : 'name'}].[ext]`
+              name: `font/[${config.hash ? 'hash' : 'name'}].[ext]`
             }
           }
         ]

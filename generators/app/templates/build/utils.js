@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 
-const config = require('../config');
+const config = require('../config/config');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
