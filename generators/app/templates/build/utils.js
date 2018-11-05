@@ -54,9 +54,8 @@ exports.styleLoaders = function () {
         test: /\.scss/i,
         use: [
           'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'sass-loader'
+          'css-loader?sourceMap=true',
+          'sass-loader?sourceMap=true'
         ]
       }
     ];
