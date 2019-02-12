@@ -1,38 +1,38 @@
-# generator-jason
-> 基于 webpack 的前端多页面模块化脚手架
+# generator-jason [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+> 用于服务器端渲染的前端切图模块化脚手架
 
-## 安装
-> 需要预先安装好 git
+## Installation
+
+First, install [Yeoman](http://yeoman.io) and generator-jason using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
-
-// 1. 安装 yo
 npm install -g yo
-
-// 2. 安装 generator-jason
 npm install -g generator-jason
-
-// 3. 进入项目目录后打命令
-yo -> jason
-
 ```
 
-## 使用
-> 页面已文件夹的形式存放于 views 文件夹下 <br/>
-> 公共组件已文件夹的形式存放于 comonents 文件夹下 <br/>
-
-## 注意
-1. 生成后的 .html/.css/.js 的名称 = views 下对应的目录名，所以尽可能不要用中文
-2. 每次新建文件时要重新进入开发环境（暂未解决）
-
-## 启动命令
+Then generate your new project:
 
 ```bash
-
-// 1. 开发环境
-npm run dev
-
-// 2. 打包项目
-npm run build
-
+yo jason
 ```
+
+## Getting To Know Yeoman
+
+ * Yeoman has a heart of gold.
+ * Yeoman is a person with feelings and opinions, but is very easy to work with.
+ * Yeoman can be too opinionated at times but is easily convinced not to be.
+ * Feel free to [learn more about Yeoman](http://yeoman.io/).
+
+## License
+
+MIT © [q-jason](https://www.qteam.site)
+
+
+[npm-image]: https://badge.fury.io/js/generator-jason.svg
+[npm-url]: https://npmjs.org/package/generator-jason
+[travis-image]: https://travis-ci.org/q-jason/generator-jason.svg?branch=master
+[travis-url]: https://travis-ci.org/q-jason/generator-jason
+[daviddm-image]: https://david-dm.org/q-jason/generator-jason.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/q-jason/generator-jason
+[coveralls-image]: https://coveralls.io/repos/q-jason/generator-jason/badge.svg
+[coveralls-url]: https://coveralls.io/r/q-jason/generator-jason

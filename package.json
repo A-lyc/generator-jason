@@ -1,33 +1,33 @@
 {
   "name": "generator-jason",
-  "version": "1.4.0",
-  "description": "基于 webpack 的前端多页面脚手架",
-  "homepage": "https://github.com/q-jason/generator-jason",
+  "version": "0.0.0",
+  "description": "用于服务器端渲染的前端切图模块化脚手架",
+  "homepage": "",
   "author": {
     "name": "q-jason",
     "email": "596908546@qq.com",
-    "url": ""
+    "url": "https://www.qteam.site"
   },
   "files": [
     "generators"
   ],
   "main": "generators/index.js",
   "keywords": [
-    "webpack",
-    "javascript",
-    "yeoman",
-    "html",
-    "css",
+    "",
     "yeoman-generator"
   ],
   "devDependencies": {
-    "coveralls": "^3.0.0",
-    "jest": "^22.0.6",
-    "lint-staged": "^6.1.1",
-    "nsp": "^2.8.0",
-    "prettier": "^1.11.1",
+    "yeoman-test": "^1.7.0",
     "yeoman-assert": "^3.1.0",
-    "yeoman-test": "^1.7.0"
+    "coveralls": "^3.0.2",
+    "eslint": "^5.9.0",
+    "prettier": "^1.15.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-config-xo": "^0.25.0",
+    "jest": "^23.5.0"
   },
   "engines": {
     "npm": ">= 4.0.0"
@@ -39,12 +39,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  },
-  "scripts": {
-    "prepublishOnly": "nsp check",
-    "pretest": "eslint .",
-    "precommit": "lint-staged",
-    "test": "jest"
   },
   "lint-staged": {
     "*.js": [
@@ -66,18 +60,16 @@
       "node": true
     },
     "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "singleQuote": true,
-          "printWidth": 90
-        }
-      ]
+      "prettier/prettier": "error"
     },
     "plugins": [
       "prettier"
     ]
   },
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "jest"
+  },
   "repository": "https://github.com/q-jason/generator-jason.git",
-  "license": "ISC"
+  "license": "MIT"
 }
