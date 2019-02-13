@@ -4,6 +4,7 @@ const {
   mainName,
   mainPath,
   viewPath,
+  getViewObj,
   getEntry,
   getHtmlWebpackPlugin
 } = require('./utils');
@@ -11,12 +12,12 @@ const {
 module.exports = {
   entry: {
     // 全局入口 js path
-    [mainName]: mainPath,
+    [ mainName ]: mainPath,
     // 各页面入口 js path
-    ...getEntry(path.resolve(viewPath))
+    ...getEntry()
   },
   output: {
-    filename: `js/[chunkhash:8].js`
+    filename: `js/[name].js`
   },
   module: {
     rules: [
@@ -82,10 +83,22 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    splitChunks: {
+      // 使用默认配置
+      chunks: 'all',
+      // 改变默认的名字，默认的名字会拼接上很多模块名
+      cacheGroups: {
+        vendor: {
+          name: 'vendor'
+        }
+      }
+    }
+  },
   plugins: [
     // webpackHtmlPlugin
-    ...getHtmlWebpackPlugin(viewPath),
-    // css
+    ...getHtmlWebpackPlugin(),
+    // css 提取成文件
     new ExtractTextPlugin({
       filename: `css/[chunkhash:8].css`
     })
