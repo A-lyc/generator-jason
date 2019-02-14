@@ -1,10 +1,12 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {
-  mainName,
-  mainPath,
+  mainEntryName,
+  vendorEntryName,
+  commonEntryName,
+  mainEntryPath,
   viewPath,
-  getViewObj,
+  extractCSS,
+  
   getEntry,
   getHtmlWebpackPlugin
 } = require('./utils');
@@ -12,7 +14,7 @@ const {
 module.exports = {
   entry: {
     // 全局入口 js path
-    [ mainName ]: mainPath,
+    [ mainEntryName ]: mainEntryPath,
     // 各页面入口 js path
     ...getEntry()
   },
@@ -33,17 +35,31 @@ module.exports = {
       // scss
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract([
-          'css-loader',
-          'postcss-loader',
-          'sass-loader'
-        ])
+        use: extractCSS.extract({
+          use: [
+            'css-loader',
+            'postcss-loader',
+            'sass-loader'
+          ],
+          publicPath: '../'
+        })
+      },
+      // css
+      {
+        test: /\.css$/,
+        use: extractCSS.extract({
+          use: [
+            'css-loader',
+            'postcss-loader'
+          ],
+          publicPath: '../'
+        })
       },
       // js
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       // 图片
       {
@@ -84,13 +100,34 @@ module.exports = {
     ]
   },
   optimization: {
+    //打包 第三方库
+    //打包 公共文件
     splitChunks: {
-      // 使用默认配置
-      chunks: 'all',
-      // 改变默认的名字，默认的名字会拼接上很多模块名
       cacheGroups: {
-        vendor: {
-          name: 'vendor'
+        // node_modules内的依赖库
+        [ vendorEntryName ]: {
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/]/,
+          name: vendorEntryName,
+          // 被不同entry引用次数(import),1次的话没必要提取
+          minChunks: 1,
+          // entry 文件请求的chunks不应该超过此值（请求过多，耗时）
+          maxInitialRequests: 5,
+          // 最小尺寸必须大于此值，默认30000B
+          minSize: 0,
+          // 优先级，多个分组冲突时决定把代码放在哪块
+          priority: 100
+          // enforce: true?
+        },
+        // src 下的 公共 js 文件
+        [ commonEntryName ]: {
+          chunks: 'all',
+          test: /[\\/]src[\\/]/,
+          name: commonEntryName,
+          minChunks: 2,
+          maxInitialRequests: 5,
+          minSize: 0,
+          priority: 1
         }
       }
     }
@@ -99,8 +136,6 @@ module.exports = {
     // webpackHtmlPlugin
     ...getHtmlWebpackPlugin(),
     // css 提取成文件
-    new ExtractTextPlugin({
-      filename: `css/[chunkhash:8].css`
-    })
+    extractCSS
   ]
 };

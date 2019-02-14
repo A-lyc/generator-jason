@@ -1,19 +1,32 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const glob = require('glob');
 const crypto = require('crypto');
 const _ = require('lodash');
 
 // 主入口名
-const mainName = 'main';
+const mainEntryName = 'main';
+// node_modules 内的依赖库入口名
+const vendorEntryName = 'vendor';
+// src js 中的公共模块入口名
+const commonEntryName = 'common';
 // 主入口路径
-const mainPath = path.resolve(__dirname, '../src/main.js');
+const mainEntryPath = path.resolve(__dirname, '../src/main.js');
 // 网页目录路径
 const viewPath = path.resolve(__dirname, '../src/views');
+// css 提取
+const extractCSS = new ExtractTextPlugin({
+  filename: `css/[name].css`
+});
 
-// 获取 views 数组
-// 包含 路径，最后一级目录名，根据最后一级目录名加密后的 hash 值
-const getViewObj = function () {
+/**
+ *  获取 views 数组
+ *  包含 路径，最后一级目录名，根据最后一级目录名加密后的 hash 值
+ *  example:
+ *    { entryHash, entryDir, lastDirName }
+ **/
+const getView = function () {
   let viewObj = [];
   // 所有入口 js 路径
   let entryJsArr = glob.sync(viewPath + '/**/*.js');
@@ -34,7 +47,7 @@ const getViewObj = function () {
 };
 // 获取 entry 对象
 const getEntry = function () {
-  let viewObj = getViewObj();
+  let viewObj = getView();
   let entry = {};
   _.each(viewObj, ({ entryHash, entryDir, lastDirName }) => {
     entry[ entryHash ] = entryDir;
@@ -45,7 +58,7 @@ const getEntry = function () {
 const getHtmlWebpackPlugin = function () {
   let htmlPluginArr = [];
   // 根据 entry 创建
-  let viewObj = getViewObj();
+  let viewObj = getView();
   // 循环创建 htmlplugin 并返回数组
   _.each(viewObj, ({ entryHash, entryDir, lastDirName }) => {
     // 寻找同目录下的 ejs 文件
@@ -56,7 +69,7 @@ const getHtmlWebpackPlugin = function () {
     ejsPath && htmlPluginArr.push(new HtmlWebpackPlugin({
       filename: lastDirName + '.html',
       template: ejsPath,
-      chunks: [ mainName, entryHash ]
+      chunks: [ vendorEntryName, commonEntryName, mainEntryName, entryHash ]
     }));
   });
   // return
@@ -64,11 +77,13 @@ const getHtmlWebpackPlugin = function () {
 };
 
 module.exports = {
-  mainName,
-  mainPath,
+  mainEntryName,
+  vendorEntryName,
+  commonEntryName,
+  mainEntryPath,
   viewPath,
+  extractCSS,
   
-  getViewObj,
   getEntry,
   getHtmlWebpackPlugin
 };
