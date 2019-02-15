@@ -21,6 +21,21 @@ yo jason
 1. 没有设置 babel-polyfill，可自行引入
 2. 推荐 views 下目录为中文（由于要交由后端，方便找网页）
 
+## 组件引入
+> 用下面的方式在页面模板中引入组件以及传参
+
+```html
+<%= require('../../components/xx/x.ejs')({...}) %>
+```
+
+## ejs 图片引入
+> 使用下面的方式引入图片
+
+```html
+<img src="<%= require('./images/abc.jpg') %>">
+<div style="background-image: url(<%= require('./images/abc.jpg') %>)"></div>
+```
+
 ## 生成的 css 文件说明
 
 ### vendor
