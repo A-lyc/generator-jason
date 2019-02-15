@@ -1,5 +1,5 @@
 # generator-jason
-> 用于服务器端渲染的前端切图模块化脚手架
+> 用于服务器端渲染的前端切图 模块 + 组件化 脚手架
 
 ## Installation
 
@@ -17,7 +17,9 @@ yo jason
 ```
 
 ## 注意
-> 没有设置 babel-polyfill，可自行引入
+
+1. 没有设置 babel-polyfill，可自行引入
+2. 建议 views 下目录为中文（由于要交由后端，方便找网页）
 
 ## 生成的 css 文件说明
 
