@@ -1,4 +1,4 @@
-# generator-jason [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-jason
 > 用于服务器端渲染的前端切图模块化脚手架
 
 ## Installation
@@ -16,23 +16,31 @@ Then generate your new project:
 yo jason
 ```
 
-## Getting To Know Yeoman
+## 注意
+> 没有设置 babel-polyfill，可自行引入
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+## 生成的 css 文件说明
 
-## License
+### vendor
+> 第三方模块 css
 
-MIT © [q-jason](https://www.qteam.site)
+### common
+> 项目中的通用样式以及组件样式（assets，components）
 
+### hash.css
+> 各个页面的单独样式
 
-[npm-image]: https://badge.fury.io/js/generator-jason.svg
-[npm-url]: https://npmjs.org/package/generator-jason
-[travis-image]: https://travis-ci.org/q-jason/generator-jason.svg?branch=master
-[travis-url]: https://travis-ci.org/q-jason/generator-jason
-[daviddm-image]: https://david-dm.org/q-jason/generator-jason.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/q-jason/generator-jason
-[coveralls-image]: https://coveralls.io/repos/q-jason/generator-jason/badge.svg
-[coveralls-url]: https://coveralls.io/r/q-jason/generator-jason
+## 生成的 js 文件说明
+
+### vendor
+> 第三方模块
+
+### common
+> 项目中的工具库以及组件（assets，components）
+
+### main
+> main.js
+
+### hash.js
+> 各页面单独的业务逻辑
+

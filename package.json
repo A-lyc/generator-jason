@@ -1,8 +1,8 @@
 {
   "name": "generator-jason",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "用于服务器端渲染的前端切图模块化脚手架",
-  "homepage": "",
+  "homepage": "https://github.com/q-jason/generator-jason",
   "author": {
     "name": "q-jason",
     "email": "596908546@qq.com",
