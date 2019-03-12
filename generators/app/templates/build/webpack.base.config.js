@@ -67,8 +67,7 @@ module.exports = {
       // js
       {
         test: /\.js$/,
-        exclude: __dirname + 'node_modules',
-        include: __dirname + 'src',
+        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       // 图片
