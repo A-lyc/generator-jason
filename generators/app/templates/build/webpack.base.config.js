@@ -77,7 +77,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `image/[hash:8].[ext]`
+              name: `image/[name].[ext]`
             }
           }
         ]
@@ -89,7 +89,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `font/[hash:8].[ext]`
+              name: `font/[name].[ext]`
             }
           }
         ]
@@ -101,7 +101,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `media/[hash:8].[ext]`
+              name: `media/[name].[ext]`
             }
           }
         ]
