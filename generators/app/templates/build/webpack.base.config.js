@@ -105,6 +105,20 @@ module.exports = {
             }
           }
         ]
+      },
+      // 全局暴漏 jQuery 和 $
+      {
+        test: require.resolve('jquery'), //require.resolve 用来获取模块的绝对路径
+        use: [
+          {
+            loader: 'expose-loader',
+            options: 'jQuery'
+          },
+          {
+            loader: 'expose-loader',
+            options: '$'
+          }
+        ]
       }
     ]
   },
