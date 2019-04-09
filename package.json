@@ -1,6 +1,6 @@
 {
   "name": "generator-jason",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "用于服务器端渲染的前端切图模块化脚手架",
   "homepage": "https://github.com/q-jason/generator-jason",
   "author": {
