@@ -46,7 +46,7 @@ yo jason
 > 项目中的通用样式以及组件样式（assets，components）
 
 ### hash.css
-> 各个页面的单独样式（views/**/index.js）
+> 各个页面的单独样式（views/**/index.scss）
 
 ## 生成的 js 文件说明
 
