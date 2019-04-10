@@ -1,5 +1,5 @@
 // debug
-import debug from 'debug';
+import debug from 'debug/dist/debug';
 // import components
 import './assets/scripts/import-components';
 // global css
