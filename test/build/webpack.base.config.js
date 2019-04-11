@@ -67,8 +67,7 @@ module.exports = {
       // js
       {
         test: /\.js$/,
-        exclude: __dirname + 'node_modules',
-        include: __dirname + 'src',
+        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       // 图片
@@ -78,7 +77,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `image/[hash:8].[ext]`
+              name: `image/[name].[ext]`
             }
           }
         ]
@@ -90,7 +89,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `font/[hash:8].[ext]`
+              name: `font/[name].[ext]`
             }
           }
         ]
@@ -102,8 +101,22 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: `media/[hash:8].[ext]`
+              name: `media/[name].[ext]`
             }
+          }
+        ]
+      },
+      // 全局暴漏 jQuery 和 $
+      {
+        test: require.resolve('jquery'), //require.resolve 用来获取模块的绝对路径
+        use: [
+          {
+            loader: 'expose-loader',
+            options: 'jQuery'
+          },
+          {
+            loader: 'expose-loader',
+            options: '$'
           }
         ]
       }
