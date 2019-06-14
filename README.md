@@ -1,5 +1,5 @@
 # generator-jason
-> 用于前后端结合服务器端渲染的前端切图 模块化 + 组件化 工程脚手架
+> 前端模块化脚手架
 
 ## Installation
 
@@ -16,49 +16,70 @@ Then generate your new project:
 yo jason
 ```
 
-## 注意
+## 使用场景
+1. 后端模板项目
+2. 前后端分离但是不依赖 vue，react，angular 等主流库的项目
 
-1. 无 babel-polyfill，可自行引入（建议使用 lodash 等工具库代替）
-2. 推荐 views 下目录为中文（由于要交由后端，方便找网页）。
-3. 建议使用 debug 模块调试（默认已引入，统一使用 app:* 作为开头）
+## 建议
+1. 使用 console 测试，默认已使用 consola 代替 console，打包时会自动删除 console
+2. views 目录下的文件夹可以是中文
 
-## 组件引入
-> 用下面的方式在页面模板中引入组件以及传参
+## 目录解析
+```bash
+src
 
-```html
-<%= require('../../components/xx/x.ejs')({...}) %>
+  资产目录，存放公共图片，全局 css，自己封装的 js 库等。
+  - assets
+  
+  组件目录，由于使用的 ejs 作为 html 语言，可通过 require 的方式引入，实现组件化
+  其中 components/index.js 会在 main.js 中执行，初始化组件
+  - components
+  
+  页面目录，存放着页面组件
+  - views
+  
+  全局公共配置
+  - main.js
 ```
 
-## ejs 图片引入
-> 使用下面的方式引入图片
+## 组件化
+> components 和 views 目录下的 A 文件夹作为模板，复制改名用即可
 
-```html
+> ejs require 实现
+
+```ejs
+<!-- ejs 中引入组件 -->
+<%= require('../../components/A/index.ejs')({
+  // 可传参数
+  title: '我是title'
+}) %>
+
 <img src="<%= require('./images/abc.jpg') %>">
 <div style="background-image: url(<%= require('./images/abc.jpg') %>)"></div>
 ```
 
 ## 生成的 css 文件说明
 
-### vendor
++ vendor
 > 第三方模块 css（node_modules）
 
-### common
++ common
 > 项目中的通用样式以及组件样式（assets，components）
 
-### hash.css
++ hash.css
 > 各个页面的单独样式（views/**/index.scss）
 
 ## 生成的 js 文件说明
 
-### vendor
++ vendor
 > 第三方模块（node_modules）
 
-### common
++ common
 > 项目中的工具库以及组件（assets，components）
 
-### main
++ main
 > main.js
 
-### hash.js
++ hash.js
 > 各页面单独的业务逻辑（views/**/index.js）
 
