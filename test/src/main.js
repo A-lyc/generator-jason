@@ -1,11 +1,9 @@
 // import components
 import './components';
-// global css
+// import global css
 import './assets/styles/global.scss';
+// consola
+import consola from 'consola';
 
-// debug
-import debug from 'debug/dist/debug';
-
-const log = debug('app:view:A');
-
-log('-------- app start --------');
+// console = consola
+consola.wrapAll();
