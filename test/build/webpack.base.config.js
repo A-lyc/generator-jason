@@ -9,9 +9,9 @@ const {
   commonEntryName,
   mainEntryPath,
   viewPath,
-  
-  getEntry,
-  getHtmlWebpackPlugin
+  viewEntryDataArr,
+  viewEntryObj,
+  htmlWebpackPluginArr
 } = require('./utils');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
     // 全局入口 js path
     [ mainEntryName ]: mainEntryPath,
     // 各页面入口 js path
-    ...getEntry()
+    ...viewEntryObj
   },
   output: {
     filename: `js/[name].js`
@@ -45,9 +45,22 @@ module.exports = {
               publicPath: '../'
             }
           },
-          'css-loader',
-          'postcss-loader',
-          'sass-loader'
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              outputStyle: 'expanded'
+            }
+          }
         ]
       },
       // css
@@ -60,8 +73,15 @@ module.exports = {
               publicPath: '../'
             }
           },
-          'css-loader',
-          'postcss-loader'
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
         ]
       },
       // js
@@ -107,6 +127,7 @@ module.exports = {
         ]
       },
       // 全局暴漏 jQuery 和 $
+      // 必须在 js 中引入一次才行
       {
         test: require.resolve('jquery'), //require.resolve 用来获取模块的绝对路径
         use: [
@@ -123,8 +144,6 @@ module.exports = {
     ]
   },
   optimization: {
-    //打包 第三方库
-    //打包 公共文件
     splitChunks: {
       cacheGroups: {
         // node_modules
@@ -154,12 +173,12 @@ module.exports = {
   },
   plugins: [
     // webpackHtmlPlugin
-    ...getHtmlWebpackPlugin(),
+    ...htmlWebpackPluginArr,
     // css 提取成文件
     new MiniCssExtractPlugin({
       filename: `css/[name].css`
     }),
-    // 将所有模块中都默认引入 jQuery
+    // 自动加载模块(jquery)
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',

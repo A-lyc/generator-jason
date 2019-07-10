@@ -1,3 +1,5 @@
+// window.$
+import 'jquery';
 // import components
 import "./components";
 // import global css
