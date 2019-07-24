@@ -1,9 +1,9 @@
 // window.$
 import 'jquery';
-// import components
-import './components';
 // import global css
 import './assets/styles/global.scss';
+// import components
+import './components';
 
 /**
  *  开发环境优化 console
