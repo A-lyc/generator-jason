@@ -20,15 +20,11 @@ yo jason
 1. 后端模板项目
 2. 前后端分离但是不依赖 vue，react，angular 等主流库的项目
 
-## 建议
-1. 使用 console 测试，默认已使用 consola 代替 console，打包时会自动删除 console
-2. views 目录下的文件夹可以是中文
-
 ## 目录解析
 ```bash
 src
 
-  资产目录，存放公共图片，全局 css，自己封装的 js 库等。
+  资产目录，css，js，font，image
   - assets
   
   组件目录，由于使用的 ejs 作为 html 语言，可通过 require 的方式引入，实现组件化
@@ -43,8 +39,7 @@ src
 ```
 
 ## 组件化
-> components 和 views 目录下的 A 文件夹作为模板，复制改名用即可
-
+> components 和 views 目录下的 A 文件夹作为模板，复制改名用即可 <br/>
 > ejs require 实现
 
 ```ejs
@@ -53,7 +48,19 @@ src
   // 可传参数
   title: '我是title'
 }) %>
+```
 
+## 注意
+
+1. views
+> 打包时，页面组件的 css 和 js 的名称，进行了单独的处理 <br/>
+> 将按照页面组件的目录名编译成 hash 字符串（相同页面的 css 和 js 名称是一样的）<br/>
+> 目的是实现页面组件的中文目录命名（后端模板项目建议中文命名，前后端分离项目不建议中文命名）
+
+2. html 路径问题
+> 使用下面方法引入即可
+
+```ejs
 <img src="<%= require('./images/abc.jpg') %>">
 <div style="background-image: url(<%= require('./images/abc.jpg') %>)"></div>
 ```

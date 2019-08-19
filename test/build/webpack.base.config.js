@@ -1,7 +1,7 @@
-const path = require('path');
+const path = require('path')
 
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const {
   mainEntryName,
@@ -12,9 +12,10 @@ const {
   viewEntryDataArr,
   viewEntryObj,
   htmlWebpackPluginArr
-} = require('./utils');
+} = require('./utils')
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
     // 全局入口 js path
     [ mainEntryName ]: mainEntryPath,
@@ -52,7 +53,10 @@ module.exports = {
             }
           },
           {
-            loader: 'postcss-loader'
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
           },
           {
             loader: 'sass-loader',
@@ -80,7 +84,10 @@ module.exports = {
             }
           },
           {
-            loader: 'postcss-loader'
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
           }
         ]
       },
@@ -187,4 +194,4 @@ module.exports = {
       'window.$': 'jquery'
     })
   ]
-};
+}

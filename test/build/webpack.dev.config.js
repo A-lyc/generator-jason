@@ -4,7 +4,6 @@ const _ = require('lodash');
 const baseConfig = require('./webpack.base.config');
 
 module.exports = merge({}, baseConfig, {
-  devtool: 'source-map',
   devServer: {
     host: '0.0.0.0',
     port: 8080

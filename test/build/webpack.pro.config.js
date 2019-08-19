@@ -1,9 +1,9 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const _ = require('lodash');
-const baseConfig = require('./webpack.base.config');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const _ = require('lodash')
+const baseConfig = require('./webpack.base.config')
 
 module.exports = merge({}, baseConfig, {
   optimization: {
@@ -16,7 +16,7 @@ module.exports = merge({}, baseConfig, {
           },
           compress: {
             drop_debugger: true,
-            drop_console: true
+            drop_console: false
           }
         }
       })
@@ -28,4 +28,4 @@ module.exports = merge({}, baseConfig, {
       'process.env.NODE_ENV': JSON.stringify('production')
     })
   ]
-});
+})
