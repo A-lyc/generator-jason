@@ -24,12 +24,15 @@ yo jason
 ```bash
 src
 
-  资产目录，css，js，font，image
+  资产目录，css，js，font
   - assets
   
   组件目录，由于使用的 ejs 作为 html 语言，可通过 require 的方式引入，实现组件化
   其中 components/index.js 会在 main.js 中执行，初始化组件
   - components
+  
+  国际化目录，实现多语言版本
+  - i18n
   
   页面目录，存放着页面组件
   - views

@@ -1,13 +1,13 @@
-'use strict';
-const Generator = require('yeoman-generator');
-const chalk = require('chalk');
-const yosay = require('yosay');
+"use strict";
+const Generator = require("yeoman-generator");
+const chalk = require("chalk");
+const yosay = require("yosay");
 
 module.exports = class extends Generator {
   prompting () {
     // Have Yeoman greet the user.
     this.log(
-      yosay(`Welcome to the kickass ${ chalk.red('generator-jason') } generator!`)
+      yosay(`Welcome to the kickass ${ chalk.red("generator-jason") } generator!`)
     );
     
     // const prompts = [
@@ -27,40 +27,40 @@ module.exports = class extends Generator {
   
   writing () {
     this.fs.copy(
-      this.templatePath('build'),
-      this.destinationPath('build')
+      this.templatePath("build"),
+      this.destinationPath("build")
     );
     this.fs.copy(
-      this.templatePath('src'),
-      this.destinationPath('src')
+      this.templatePath("src"),
+      this.destinationPath("src")
     );
     this.fs.copy(
-      this.templatePath('babelrc'),
-      this.destinationPath('.babelrc')
+      this.templatePath("babelrc"),
+      this.destinationPath(".babelrc")
     );
     this.fs.copy(
-      this.templatePath('editorconfig'),
-      this.destinationPath('.editorconfig')
+      this.templatePath("editorconfig"),
+      this.destinationPath(".editorconfig")
     );
     this.fs.copy(
-      this.templatePath('gitattributes'),
-      this.destinationPath('.gitattributes')
+      this.templatePath("gitattributes"),
+      this.destinationPath(".gitattributes")
     );
     this.fs.copy(
-      this.templatePath('gitignore'),
-      this.destinationPath('.gitignore')
+      this.templatePath("gitignore"),
+      this.destinationPath(".gitignore")
     );
     this.fs.copy(
-      this.templatePath('package.json'),
-      this.destinationPath('package.json')
+      this.templatePath("package.json"),
+      this.destinationPath("package.json")
     );
     this.fs.copy(
-      this.templatePath('postcss.config.js'),
-      this.destinationPath('postcss.config.js')
+      this.templatePath("postcss.config.js"),
+      this.destinationPath("postcss.config.js")
     );
     this.fs.copy(
-      this.templatePath('README.MD'),
-      this.destinationPath('README.MD')
+      this.templatePath("README.MD"),
+      this.destinationPath("README.MD")
     );
   }
   

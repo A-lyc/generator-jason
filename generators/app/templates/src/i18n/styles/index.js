@@ -1,8 +1,7 @@
 const LANG = process.env.LANG
 
 try {
-  LANG && require('./' + LANG + '.js')
+  LANG && import('./' + LANG + '.scss')
 }
 catch (err) {
-
 }

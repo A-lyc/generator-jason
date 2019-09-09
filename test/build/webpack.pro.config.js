@@ -10,6 +10,7 @@ module.exports = merge({}, baseConfig, {
     minimizer: [
       // 删除 console
       new UglifyJSPlugin({
+        sourceMap: true,
         uglifyOptions: {
           output: {
             comments: false
