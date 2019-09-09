@@ -14,6 +14,7 @@ Then generate your new project:
 
 ```bash
 yo jason
+npm run dev -> localhost:8080
 ```
 
 ## 使用场景
