@@ -23,7 +23,7 @@ const viewEntryDataArr = (function () {
   return _.map(entryPathArr, path => {
     // 获取目录名作为名称
     // 这里有些问题，其他系统电脑的 '/' 可能是 '\'
-    // 身边没有电脑，待解决
+    // 身边没有其他电脑，待解决
     let name = _.nth(path.split('/'), -2)
     // 根据名称算出 hash 值
     let hash = crypto.createHash('md5').update(name).digest('hex')
@@ -50,7 +50,7 @@ const htmlWebpackPluginArr = (function () {
     return new HtmlWebpackPlugin({
       filename: name + '.html',
       template: ejsPath,
-      chunks: [vendorEntryName, commonEntryName, mainEntryName, hash]
+      chunks: [ vendorEntryName, commonEntryName, mainEntryName, hash ]
     })
   })
 })()
