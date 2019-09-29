@@ -170,7 +170,7 @@ module.exports = {
         // components
         [ commonEntryName ]: {
           chunks: 'all',
-          test: /[\\/]src[\\/]assets|[\\/]src[\\/]components/,
+          test: /[\\/]src[\\/]assets|[\\/]src[\\/]components|[\\/]src[\\/]i18n/,
           name: commonEntryName,
           minChunks: 1,
           maxInitialRequests: 5,
