@@ -6,23 +6,6 @@ const _ = require('lodash')
 const baseConfig = require('./webpack.base.config')
 
 module.exports = merge({}, baseConfig, {
-  optimization: {
-    minimizer: [
-      // 删除 console
-      new UglifyJSPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-          output: {
-            comments: false
-          },
-          compress: {
-            drop_debugger: true,
-            drop_console: false
-          }
-        }
-      })
-    ]
-  },
   plugins: [
     new CleanWebpackPlugin([ 'dist' ]),
     new webpack.DefinePlugin({
