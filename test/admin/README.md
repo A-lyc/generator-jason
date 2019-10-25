@@ -1,5 +1,5 @@
 # 管理员目录
-> 会创建一个管理员页面(http://localhost:8080/admin.html)
+> 一个管理员页面 (http://localhost:8080/admin.html)
 
 ## 作用
 + 查看所有页面，以及链接

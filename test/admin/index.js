@@ -16,26 +16,35 @@ let htmlNameArr = require
 
 // 组件 render 数组
 let compContexts = require.context('../src/components', true, /\.ejs$/)
-let compRenderArr = compContexts
+let compArr = compContexts
   .keys()
-  .map(comp => {
-    return compContexts(comp)
+  .map(path => {
+    let dirname = path.replace(/\\/g, '/').replace('./', '').replace('/index.ejs', '')
+    return {
+      dirname,
+      render: compContexts(path)
+    }
   })
 
 // 拼接 html
 let linkHtml = (function () {
   let html = ''
   htmlNameArr.forEach(htmlName => {
-    html += `<a href="${ './' + htmlName }">${ htmlName }</a>`
+    html += `<a class="link-item" href="${ './' + htmlName }">${ htmlName }</a>`
   })
   return html
 })()
 let compHtml = (function () {
   let html = ''
-  compRenderArr.forEach(render => {
+  compArr.forEach(comp => {
     html += `
       <div class="component-group">
-        ${ render() }
+        <h3 class="component-group-title">
+          ${ comp.dirname }
+        </h3>
+        <div class="component-group-body">
+          ${ comp.render() }
+        </div>
       </div>
     `
   })
