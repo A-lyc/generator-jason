@@ -1,26 +1,55 @@
+const fs = require('fs')
 const path = require('path')
-
 const webpack = require('webpack')
+const glob = require('glob')
+const crypto = require('crypto')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const _ = require('lodash')
 
-const {
-  mainEntryName,
-  vendorEntryName,
-  commonEntryName,
-  mainEntryPath,
-  viewPath,
-  viewEntryDataArr,
-  viewEntryObj,
-  htmlWebpackPluginArr
-} = require('./utils')
+let pageHelper = (function () {
+  let entryPathArr = glob.sync(path.resolve(__dirname, '../src/views') + '/**/index.js')
+  return _.map(entryPathArr, entryPath => {
+    // ejs 模板路径
+    let templatePath = entryPath.replace('.js', '.ejs')
+    // 统一不同系统之间的斜杠
+    let formatEntryPath = entryPath.replace(/\\/g, '/')
+    // 页面目录名
+    let dirname = _.nth(formatEntryPath.split('/'), -2)
+    // 页面独有的 hash 名 (根据页面目录名计算而来)
+    let hash = crypto.createHash('md5').update(dirname).digest('hex')
+    
+    return {
+      dirname,
+      hash,
+      entryPath,
+      templatePath
+    }
+  })
+})()
+let pageEntry = (function () {
+  let obj = {}
+  pageHelper.forEach(page => {
+    obj[ page.hash ] = page.entryPath
+  })
+  return obj
+})()
+let htmlPluginArr = (function () {
+  return _.map(pageHelper, page => {
+    return new HtmlWebpackPlugin({
+      filename: page.dirname + '.html',
+      template: page.templatePath,
+      chunks: [ 'vendor', 'common', 'main', page.hash ]
+    })
+  })
+})()
 
 module.exports = {
   devtool: 'source-map',
   entry: {
-    // 全局入口 js path
-    [ mainEntryName ]: mainEntryPath,
-    // 各页面入口 js path
-    ...viewEntryObj
+    main: path.resolve(__dirname, '../src/main.js'),
+    admin: path.resolve(__dirname, '../admin/index.js'),
+    ...pageEntry
   },
   output: {
     filename: `js/[name].js`
@@ -116,7 +145,6 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              // name: `font/[name].[ext]`,
               limit: true
             }
           }
@@ -135,7 +163,8 @@ module.exports = {
         ]
       },
       // 全局暴漏 jQuery 和 $
-      // 必须在 js 中引入一次才行
+      // 注意：必须在 js 中引入一次才行
+      // 推荐：main.js 中引入
       {
         test: require.resolve('jquery'), //require.resolve 用来获取模块的绝对路径
         use: [
@@ -153,40 +182,40 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
-        // node_modules
-        [ vendorEntryName ]: {
+        // 第三方库 (node_modules 中的)
+        vendor: {
+          name: 'vendor',
           chunks: 'all',
           test: /[\\/]node_modules[\\/]/,
-          name: vendorEntryName,
-          // 被不同entry引用次数(import),1次的话没必要提取
-          minChunks: 1,
-          // entry 文件请求的chunks不应该超过此值（请求过多，耗时）
-          maxInitialRequests: 5,
-          // 最小尺寸必须大于此值，默认30000B
           minSize: 0
         },
-        // assets
-        // components
-        [ commonEntryName ]: {
+        // 项目公共部分代码
+        // assets, components, i18n
+        common: {
+          name: 'common',
           chunks: 'all',
           test: /[\\/]src[\\/]assets|[\\/]src[\\/]components|[\\/]src[\\/]i18n/,
-          name: commonEntryName,
-          minChunks: 1,
-          maxInitialRequests: 5,
           minSize: 0
         }
       }
     }
   },
   plugins: [
-    // webpackHtmlPlugin
-    ...htmlWebpackPluginArr,
+    // html plugin
+    ...htmlPluginArr,
+    // admin html plugin
+    new HtmlWebpackPlugin({
+      filename: 'admin.html',
+      template: path.resolve(__dirname, '../admin/index.ejs'),
+      chunks: [ 'vendor', 'common', 'main', 'admin' ]
+    }),
     // css 提取成文件
     new MiniCssExtractPlugin({
       filename: `css/[name].css`
     }),
-    // 自动加载模块(jquery)
+    // 写项目时自动引入 jquery，无需 import
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
