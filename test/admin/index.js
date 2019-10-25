@@ -1,4 +1,5 @@
 import './index.scss'
+import Vue from './lib/vue.esm'
 
 // 页面名数组
 let htmlNameArr = require
@@ -26,31 +27,12 @@ let compArr = compContexts
     }
   })
 
-// 拼接 html
-let linkHtml = (function () {
-  let html = ''
-  htmlNameArr.forEach(htmlName => {
-    html += `<a class="link-item" href="${ './' + htmlName }">${ htmlName }</a>`
-  })
-  return html
-})()
-let compHtml = (function () {
-  let html = ''
-  compArr.forEach(comp => {
-    html += `
-      <div class="component-group">
-        <h3 class="component-group-title">
-          ${ comp.dirname }
-        </h3>
-        <div class="component-group-body">
-          ${ comp.render() }
-        </div>
-      </div>
-    `
-  })
-  return html
-})()
-
-// 放入页面
-$('.link').html(linkHtml)
-$('.component').html(compHtml)
+new Vue({
+  el: '.root',
+  data () {
+    return {
+      htmlNameArr,
+      compArr
+    }
+  }
+})
