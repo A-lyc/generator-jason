@@ -44,21 +44,11 @@ let htmlPluginArr = (function () {
   })
 })()
 
-// 管理员
-let adminEntryPath = path.resolve(__dirname, '../admin/index.js')
-let adminTemplatePath = path.resolve(__dirname, '../admin/index.ejs')
-
-// 将页面目录管理员 data.json 文件
-fs.writeFileSync(
-  path.resolve(__dirname, '../admin/data.json'),
-  JSON.stringify(pageHelper)
-)
-
 module.exports = {
   devtool: 'source-map',
   entry: {
-    admin: adminEntryPath,
     main: path.resolve(__dirname, '../src/main.js'),
+    admin: path.resolve(__dirname, '../admin/index.js'),
     ...pageEntry
   },
   output: {
@@ -192,21 +182,22 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
         // 第三方库 (node_modules 中的)
         vendor: {
           name: 'vendor',
           chunks: 'all',
           test: /[\\/]node_modules[\\/]/,
-          enforce: true
+          minSize: 0
         },
         // 项目公共部分代码
         // assets, components, i18n
         common: {
-          name: 'vendor',
+          name: 'common',
           chunks: 'all',
           test: /[\\/]src[\\/]assets|[\\/]src[\\/]components|[\\/]src[\\/]i18n/,
-          enforce: true
+          minSize: 0
         }
       }
     }
@@ -217,8 +208,8 @@ module.exports = {
     // admin html plugin
     new HtmlWebpackPlugin({
       filename: 'admin.html',
-      template: adminTemplatePath,
-      chunks: [ 'admin' ]
+      template: path.resolve(__dirname, '../admin/index.ejs'),
+      chunks: [ 'vendor', 'common', 'main', 'admin' ]
     }),
     // css 提取成文件
     new MiniCssExtractPlugin({
