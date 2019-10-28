@@ -9,12 +9,12 @@
 <body class="page-admin">
 <main class="root">
   <div class="root-group">
-    <h3 class="mb-4">
+    <h3 class="root-title">
       页面
     </h3>
-    <div class="list-group">
+    <div class="list">
       <a
-        class="list-group-item"
+        class="list-item"
         v-for="htmlName in htmlNameArr"
         :key="htmlName"
         :href="'./' + htmlName"
@@ -23,20 +23,20 @@
     </div>
   </div>
   <div class="root-group">
-    <h3 class="mb-4">
+    <h3 class="root-title">
       组件
     </h3>
     <div class="component">
       <div
-        class="component-group"
+        class="component-item"
         v-for="comp in compArr"
         :key="comp.dirname">
         <h4
-          class="component-group-title"
+          class="component-item-title"
           v-html="comp.dirname">
         </h4>
         <div
-          class="component-group-body"
+          class="component-item-body"
           v-html="comp.render()">
         </div>
       </div>
