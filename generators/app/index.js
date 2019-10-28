@@ -27,6 +27,10 @@ module.exports = class extends Generator {
   
   writing () {
     this.fs.copy(
+      this.templatePath("admin"),
+      this.destinationPath("admin")
+    );
+    this.fs.copy(
       this.templatePath("build"),
       this.destinationPath("build")
     );
