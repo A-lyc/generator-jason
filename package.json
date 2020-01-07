@@ -1,12 +1,11 @@
 {
   "name": "generator-jason",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "前端模块化脚手架",
   "homepage": "https://github.com/q-jason/generator-jason",
   "author": {
     "name": "q-jason",
-    "email": "596908546@qq.com",
-    "url": "http://www.qteam.site"
+    "email": "596908546@qq.com"
   },
   "files": [
     "generators"
